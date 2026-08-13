@@ -176,4 +176,18 @@ app.MapPost("/api/matchmaking/v4/create", (HttpContext context) =>
 app.MapPost("/api/matchmaking/v4/join", () => Results.Json(new { Result = 0 }));
 
 Console.WriteLine("🚀 Upgraded 2019 Room-Ready Server active on http://localhost:8080");
+// --- 6. MISCELLANEOUS PLATFORM STUBS ---
+
+// Suppresses error loops when the client tries to log player game actions
+app.MapPost("/api/analytics/v1/log", () => Results.Ok());
+
+// Prevents crashes when loading/saving custom watch menu profile pictures
+app.MapGet("/api/images/v1/profile", () => Results.Json(new { ImageName = "default_avatar" }));
+
+// Suppresses notifications system checking (e.g. invites, friend alerts)
+app.MapGet("/api/notification/v1/getNotifications", () => Results.Json(Array.Empty<object>()));
+
+// Allows custom map save files to pass through without breaking
+app.MapPost("/api/rooms/v1/save", () => Results.Json(new { Success = true }));
+
 app.Run();
